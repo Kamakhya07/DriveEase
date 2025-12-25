@@ -77,16 +77,26 @@ app.use((req, res, next) => {
 
 // Serve static files from public directory
 app.use(express.static('public', { 
+  
   index: false, // Don't serve index.html automatically
   dotfiles: 'deny' // Don't expose dotfiles
 }));
 
-// Disable directory listing
-app.use((req, res, next) => {
-  if (req.path.endsWith('/') && req.path !== '/') {
-    return res.status(403).send('Directory listing disabled');
-  }
-  next();
+// // Disable directory listing
+// app.use((req, res, next) => {
+//   if (req.path.endsWith('/') && req.path !== '/') {
+//     return res.status(403).send('Directory listing disabled');
+//   }
+//   next();
+// });
+// Fallback route – always serve login page
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'), err => {
+    if (err) {
+      console.error('Error serving login.html:', err);
+      res.status(500).send('Server error');
+    }
+  });
 });
 
 // Initialize data storage
@@ -197,12 +207,14 @@ function requireAdmin(req, res, next) {
 
 // Default route - always serve login
 app.get('/', (req, res) => {
-  if (req.session.user) {
-    res.redirect('/dashboard.html');
-  } else {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-  }
+  res.sendFile(path.join(__dirname, 'public', 'login.html'), err => {
+    if (err) {
+      console.error('Error serving login.html:', err);
+      res.status(500).send('Server error');
+    }
+  });
 });
+
 
 // API Routes
 
