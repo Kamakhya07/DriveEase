@@ -143,24 +143,7 @@ drive-smart-portal/
 - Admin role-based access control
 - Secure file upload validation
 
-## Development
-
-The application runs as a single unified server. All frontend files are served from the `/public` directory, and all API routes are handled by the Express server in `server.js`.
-
-### Adding New Features
-
-1. **New Page**: Create HTML file in `/public` directory
-2. **New API Route**: Add route handler in `server.js`
-3. **Styling**: Use existing CSS variables in `/public/css/style.css`
-
-## Production Deployment
-
-1. Set environment variables for Cloudinary
-2. Change session secret in `server.js`
-3. Change default admin password
-4. Consider migrating from JSON files to a database
-5. Enable HTTPS
-6. Set up proper error logging
+`
 
 ## License
 
